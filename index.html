@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AngularJS Example</title>
+  <!-- Include AngularJS Minified -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+</head>
+<body ng-controller="myController">
+  <div>
+    <input type="text" ng-model="name" placeholder="Votre nom" required>
+    <input type="text" ng-model="prenom" placeholder="Votre prenom" required>
+    <input type="date" ng-model="date" placeholder="Votre date de naissance" required>
+    <input type="checkbox" ng-model="checked" ng-true-value="'IDEV'"> IDEV
+    <input type="checkbox" ng-model="checked" ng-true-value="'RSI'"> RSI
+    <button ng-click="ajout()">Ajouter eleve</button>
+  </div>
+  <div>
+    <ul>
+        <li ng-repeat="eleve in eleves">{{eleves.nom}}</li>
+    </ul>
+    <p ng-if="eleve.length === 0">Aucun élève a été entré</p>
+  </div>
+
+  <script>
+    // Define AngularJS Application
+    angular.module('myApp', [])
+    .controller('myController', function($scope) {
+      $scope.eleves = [];
+
+      $scope.name = "";
+      $scope.prenom = "";
+      $scope.date = "";
+      $scope.classe = "";
+      
+      
+      $scope.ajout=function(){
+              $scope.eleves.push({ nom : $scope.name }) ;
+        }
+
+        console.log($scope.eleves);
+    
+    });
+  </script>
+</body>
+</html>
