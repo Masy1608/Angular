@@ -6,21 +6,37 @@
   <title>AngularJS Example</title>
   <!-- Include AngularJS Minified -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body ng-controller="myController">
-  <div>
-    <input type="text" ng-model="name" placeholder="Votre nom" required>
-    <input type="text" ng-model="prenom" placeholder="Votre prenom" required>
-    <input type="date" ng-model="date" placeholder="Votre date de naissance" required>
-    <input type="checkbox" ng-model="checked" ng-true-value="'IDEV'"> IDEV
-    <input type="checkbox" ng-model="checked" ng-true-value="'RSI'"> RSI
-    <button ng-click="ajout()">Ajouter eleve</button>
+  <div class="form-container">
+    <h2>Ajouter un élève</h2>
+    <form ng-submit="ajout()">
+      <input type="text" ng-model="name" placeholder="Votre nom" required>
+      <input type="text" ng-model="prenom" placeholder="Votre prénom" required>
+      <input type="date" ng-model="date" placeholder="Votre date de naissance" required>
+      <div class="radio-group">
+        <label>
+          <input type="radio" ng-model="classe" name="classe" value="IDEV" required> IDEV
+        </label>
+        <label>
+          <input type="radio" ng-model="classe" name="classe" value="RSI"> RSI
+        </label>
+    </div>
+      <button type="submit">Ajouter élève</button>
+    </form>
   </div>
-  <div>
+  
+  <div class="list-container">
+    <h2>Liste des élèves</h2>
     <ul>
-        <li ng-repeat="eleve in eleves">{{eleves.nom}}</li>
+      <li ng-repeat="eleve in eleves">
+        <strong>{{eleve.nom}} {{eleve.prenom}}</strong><br>
+        Date de naissance : {{eleve.date | date:'dd/MM/yyyy'}}<br>
+        Classe : <span ng-if="eleve.classe">{{eleve.classe}}</span>
+      </li>
     </ul>
-    <p ng-if="eleve.length === 0">Aucun élève a été entré</p>
+    <p class="message" ng-if="eleves.length === 0">Aucun élève a été entré</p>
   </div>
 
   <script>
@@ -34,13 +50,22 @@
       $scope.date = "";
       $scope.classe = "";
       
+      $scope.ajout = function(){
+        
+        $scope.eleves.push({
+          nom: $scope.name,
+          prenom: $scope.prenom,
+          date: $scope.date,
+          classe: $scope.classe
+        });
+        
+        // Réinitialise le formulaire
+        $scope.name = "";
+        $scope.prenom = "";
+        $scope.date = "";
+        $scope.classe = "";
       
-      $scope.ajout=function(){
-              $scope.eleves.push({ nom : $scope.name }) ;
-        }
-
-        console.log($scope.eleves);
-    
+      };
     });
   </script>
 </body>
